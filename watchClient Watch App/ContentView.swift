@@ -9,19 +9,33 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var socketManger = WebSocketManger()
+    @State private var count = 0
     var body: some View {
-        startView
+        if self.socketManger.response != "success" {
+            startView
+        }
+        else {
+            loadingView
+        }
     }
     
     var startView: some View {
         VStack {
             Text("Press send to start").padding()
+            Text("Shoot: \(count)")
             Button("Send") {
                 socketManger.send()
+                count += 1
             }
         }
         .onAppear {
             socketManger.connect()
+        }
+    }
+    
+    var loadingView: some View {
+        VStack {
+            Text("shooting")
         }
     }
 }

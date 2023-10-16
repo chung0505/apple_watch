@@ -9,11 +9,11 @@ import Foundation
 
 class WebSocketManger: ObservableObject {
     @Published var response = ""
-
+    
     private var socketTask: URLSessionWebSocketTask?
 
     func connect() {
-        if let url = URL(string: "ws://172.20.10.13:2222") {
+        if let url = URL(string: "ws://127.0.0.1:7000") {
             let session = URLSession(configuration: .default)
             socketTask = session.webSocketTask(with: url)
             listen()
