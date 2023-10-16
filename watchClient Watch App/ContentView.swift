@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var socketManger = WebSocketManger()
     var body: some View {
+        startView
+    }
+    
+    var startView: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Press send to start").padding()
+            Button("Send") {
+                socketManger.send()
+            }
         }
-        .padding()
+        .onAppear {
+            socketManger.connect()
+        }
     }
 }
 
@@ -24,3 +31,34 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
+//guard let url = URL(string: "ws://192.168.1.114:7000") else {
+//    print("Error")
+//    return
+//}
+//let urlSession = URLSession(configuration: .default)
+//var request = URLRequest(url: url)
+//request.httpMethod = "POST"
+//request.httpBody = "start shooting".data(using: .utf8)
+//let webSocketTask = urlSession.webSocketTask(with: request)
+//webSocketTask.resume()
+//let message = URLSessionWebSocketTask.Message.string("Start shooting")
+//webSocketTask.send(message) { error in
+//    if let error = error {
+//        print("WebSocket could not send message because: \(error)")
+//    }
+//}
+//webSocketTask.receive { result in
+//    switch result {
+//    case .failure(let error):
+//        print("error: \(error)")
+//    case .success(let message):
+//        switch message {
+//        case .string(let text):
+//            print("Received string: \(text)")
+//        case .data(let data):
+//            print("Received data \(data)")
+//        }
+//    }
+//}
